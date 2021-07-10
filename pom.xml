@@ -95,6 +95,16 @@
 			<artifactId>aws-java-sdk-dynamodb</artifactId>
 			<version>1.11.857</version>
 		</dependency>
+		<!-- Micrometer core dependency  -->
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-core</artifactId>
+		</dependency>
+		<!-- Micrometer Prometheus registry  -->
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
