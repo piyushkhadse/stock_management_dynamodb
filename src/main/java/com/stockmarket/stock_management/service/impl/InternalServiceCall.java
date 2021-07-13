@@ -32,8 +32,7 @@ public class InternalServiceCall {
         try {
             RestTemplate restTemplate = new RestTemplate();
             URI uri = new URI(url);
-            CompanyView result = restTemplate.getForObject(uri, CompanyView.class);
-            return result;
+            return restTemplate.getForObject(uri, CompanyView.class);
         } catch (ApplicationException exception) {
             logger.error().log("Error while fetching company details url:{}", url, exception);
             throw exception;

@@ -58,6 +58,9 @@ public class LocalEventStoreScheduler {
                 repository.save(localEventStore);
                 return true;
             }
+        } catch (InterruptedException exception) {
+            logger.error().log("Exception while publishing and updating local events for localEvent:{}", localEventStore, exception);
+            Thread.currentThread().interrupt();
         } catch (Exception e) {
             logger.error().log("Exception while publishing and updating local events for localEvent:{}", localEventStore, e);
         }

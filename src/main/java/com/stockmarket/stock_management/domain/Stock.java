@@ -47,22 +47,20 @@ public class Stock extends AggregateRoot {
 
     public void validate(AddStockPrice addStockPrice) {
         List<Error> errors = new ArrayList<>();
+        String INVALID_INPUT = "INVALID_INPUT";
         if (mandatoryCheck(addStockPrice.getCompanyCode())) {
-            errors.add(new Error("INVALID_INPUT", "companyCode is invalid input"));
+            errors.add(new Error(INVALID_INPUT, "companyCode is invalid input"));
             addStockPrice.setErrors(errors);
         } else if (addStockPrice.getStockPrice() == null) {
-            errors.add(new Error("INVALID_INPUT", "stockPrice is invalid input"));
+            errors.add(new Error(INVALID_INPUT, "stockPrice is invalid input"));
             addStockPrice.setErrors(errors);
-        } else if (addStockPrice.getStockPrice().compareTo(0.0d) == -1) {
-            errors.add(new Error("INVALID_INPUT", "stockPrice is invalid input"));
+        } else if (addStockPrice.getStockPrice().compareTo(0.0d) < 0) {
+            errors.add(new Error(INVALID_INPUT, "stockPrice is invalid input. It should be greater than 0."));
             addStockPrice.setErrors(errors);
         }
     }
 
     private boolean mandatoryCheck(String field) {
-        if (field == null || field.isEmpty()) {
-            return true;
-        }
-        return false;
+        return field == null || field.isEmpty();
     }
 }

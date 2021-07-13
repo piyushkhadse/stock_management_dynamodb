@@ -96,7 +96,6 @@ public class StockProjectionRepository {
                 return stockList.get(0);
             }
         } catch (Exception e) {
-            //logger.error().log("Error while fetching latest stock price for company code:{}", companyCode, e);
             throw new ApplicationException(new Error("INTERNAL_SERVER_ERROR", "Internal Server Error"), 500);
         }
     }
