@@ -5,6 +5,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
 import com.amazonaws.services.dynamodbv2.model.Condition;
+import com.stockmarket.core_d.logger.StockMarketApplicationLogger;
 import com.stockmarket.stock_management.domain.StockLocalEventStore;
 import com.stockmarket.stock_management.domain.StockLocalEventStoreComparator;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,8 @@ public class StockLocalEventRepository {
 
     @Autowired
     DynamoDBMapper dynamoDBMapper;
+
+    StockMarketApplicationLogger logger = StockMarketApplicationLogger.getLogger(this.getClass());
 
     public StockLocalEventStore save(StockLocalEventStore stockLocalEventStore) {
         dynamoDBMapper.save(stockLocalEventStore);
@@ -37,7 +40,7 @@ public class StockLocalEventRepository {
                 resp = dynamoDBMapper.scan(StockLocalEventStore.class, scanExpression);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error().log("Exception while finding event by company code",e);
         }
         return resp;
     }
@@ -66,7 +69,7 @@ public class StockLocalEventRepository {
                 return limitedRecords;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error().log("Exception in findBySent()",e);
         }
         return new ArrayList<>();
     }

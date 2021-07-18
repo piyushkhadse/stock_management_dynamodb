@@ -7,6 +7,7 @@ import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
 import com.amazonaws.services.dynamodbv2.model.Condition;
 import com.stockmarket.core_d.domain.Error;
 import com.stockmarket.core_d.exception.ApplicationException;
+import com.stockmarket.core_d.logger.StockMarketApplicationLogger;
 import com.stockmarket.stock_management.domain.Stock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -18,6 +19,8 @@ public class StockProjectionRepository {
 
     @Autowired
     private DynamoDBMapper dynamoDBMapper;
+
+    StockMarketApplicationLogger logger = StockMarketApplicationLogger.getLogger(this.getClass());
 
     public Stock save(Stock stock) {
         dynamoDBMapper.save(stock);
@@ -37,7 +40,7 @@ public class StockProjectionRepository {
                 resp = dynamoDBMapper.scan(Stock.class, scanExpression);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error().log("Exception while finding company by company code",e);
         }
         return resp;
     }
@@ -74,7 +77,7 @@ public class StockProjectionRepository {
                 resp = dynamoDBMapper.scan(Stock.class, scanExpression);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error().log("Exception in getAllStockPrices()",e);
         }
         return resp;
     }
